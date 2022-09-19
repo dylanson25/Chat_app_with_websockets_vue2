@@ -1,9 +1,8 @@
 <template>
-  <div id="app" class="container">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
-<style lang="scss">
-
+<style lang="sass">
+body
+  height: 100vh
 </style>
