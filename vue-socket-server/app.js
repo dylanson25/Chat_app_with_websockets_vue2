@@ -11,14 +11,50 @@ const { Server } = require("socket.io", {
 });
 const io = new Server(server);
 
+let users = {};
+
 app.get("/", (req, res) => {
   res.send("Socketio...");
 });
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-  socket.on("mensaje", function (mensaje) {
-    console.log("mensaje: " + mensaje);
+
+  /* eventos chat */
+  // EVENT LOGIN
+  socket.on("login", (username) => {
+    console.log("LOGIN: ", username);
+
+    if (users[username]) {
+      socket.emit("USER_EXIST");
+      return;
+    }
+    socket.username = username;
+    socket[username] = username;
+    socket.emit("LOGIN", {
+      username: socket.username,
+      users,
+    });
+    socket.broadcast.emit("USER_JOINED", {
+      username: socket.username,
+      users,
+    });
+  });
+  //EVENT NEWMESSAGE
+  socket.on("newMessage", (message) => {
+    console.log("NEW MESSAGE");
+    socket.broadcast.emit("NEW MESSAGE", `${socket.username}: message`);
+    socket.emit("NEW_MESSAGE", `Yo: ${message}`);
+  });
+  //EVENT DISCONET
+  socket.on("disconnect", () => {
+    if (users[socket.username]) {
+      delete users[socket.username];
+      socket.broadcast.emit("USER_LEFT", {
+        username: socket.username,
+        users,
+      });
+    }
   });
 });
 
