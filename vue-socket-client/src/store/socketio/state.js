@@ -1,4 +1,6 @@
 export default () => ({
   io: {},
-  name: "Dylan",
+  name: null,
+  users: [],
+  exist: false,
 });
