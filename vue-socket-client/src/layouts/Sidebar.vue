@@ -18,6 +18,7 @@
 </template>
   
 <script>
+import { mapGetters } from 'vuex';
 export default {
     methods: {
         handleNavigate(name) {
@@ -25,14 +26,12 @@ export default {
             this.$router.push(`/chats/${name}`)
         }
     },
+    computed: {
+        ...mapGetters('socketio', ['users', 'name'])
+    },
     data() {
         return {
             open: false,
-            users: [
-                { name: "Dylanson 25" },
-                { name: "Ximena VG" },
-                { name: "Katara" },
-            ]
         };
     }
 };
