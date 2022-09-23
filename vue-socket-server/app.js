@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-
   /* eventos chat */
   // EVENT LOGIN
   socket.on("login", (username) => {
@@ -30,12 +29,13 @@ io.on("connection", (socket) => {
       return;
     }
     socket.username = username;
-    socket[username] = username;
+    users[username] = username;
+    // console.log(socket);
     socket.emit("LOGIN", {
       username: socket.username,
       users,
     });
-    socket.broadcast.emit("USER_JOINED", {
+    socket.broadcast.emit("JOINED", {
       username: socket.username,
       users,
     });
@@ -48,6 +48,7 @@ io.on("connection", (socket) => {
   });
   //EVENT DISCONET
   socket.on("disconnect", () => {
+    console.log("desconectado: ", socket.username);
     if (users[socket.username]) {
       delete users[socket.username];
       socket.broadcast.emit("USER_LEFT", {

@@ -15,14 +15,11 @@ Vue.use(Buefy);
 
 Vue.use(
   new VueSocketIO({
-    debug: true,
     connection: SocketIO("http://localhost:8081", {
       transports: ["websocket", "polling", "flashsocket"],
     }),
     vuex: {
       store,
-      actionPrefix: "SOCKET_",
-      mutationPrefix: "SOCKET_",
     },
   })
 );

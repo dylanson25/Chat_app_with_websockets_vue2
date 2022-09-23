@@ -11,12 +11,14 @@ export const NEW_MESSAGE = (state, message) => {
   state.chat.push(message[0]);
 };
 
-export const LOGIN = (state, data) => {
+export function SOCKET_LOGIN(state, data) {
+  console.log("aqui");
   state.users = data[0].users;
   state.name = data[0].username;
-};
+}
 
 export const USER_EXIST = (state) => {
+  console.log("first");
   state.exist = true;
 };
 

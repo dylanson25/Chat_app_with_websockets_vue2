@@ -1,48 +1,51 @@
 <template>
-    <div class="container">
-        <section class="navbar__chat">
-            <b-navbar-item>
-                <img src="../assets/logo.png" alt="logo">
-            </b-navbar-item>
-            <b-navbar-item class="title-chat">
-                {{$store.state.socketio.name}}:
-            </b-navbar-item>
-            <b-navbar-item>
-                {{chatTitle}}
-            </b-navbar-item>
-        </section>
+  <div class="container">
+    <section class="navbar__chat">
+      <b-navbar-item>
+        <img src="../assets/logo.png" alt="logo" />
+      </b-navbar-item>
+      <b-navbar-item class="title-chat">
+        {{ $store.state.socketio.name }}:
+      </b-navbar-item>
+      <b-navbar-item>
+        {{ chatTitle }}
+      </b-navbar-item>
+    </section>
 
-        <section class="section section-bg">
+    <section class="section section-bg"></section>
 
-        </section>
-
-        <section class="section section__chat">
-            <b-field>
-                <b-input v-model="message" placeholder="Escribe un mensaje aqui" type="textarea">
-                </b-input>
-            </b-field>
-            <b-button type="is-success">
-                <b-icon icon="share" size="is-large" />
-            </b-button>
-        </section>
-    </div>
+    <section class="section section__chat">
+      <b-field>
+        <b-input
+          v-model="message"
+          placeholder="Escribe un mensaje aqui"
+          type="textarea"
+        >
+        </b-input>
+      </b-field>
+      <b-button type="is-success">
+        <b-icon icon="share" size="is-large" />
+      </b-button>
+    </section>
+  </div>
 </template>
 
 <script>
 export default {
-    computed: {
-        chatTitle() {
-            const nameRoute = this.$route.name
-            return nameRoute == "global chat" ? "Chat Global" : this.$route.params.name
-        }
-
+  computed: {
+    chatTitle() {
+      const nameRoute = this.$route.name;
+      return nameRoute == "global chat"
+        ? "Chat Global"
+        : this.$route.params.name;
     },
-    data() {
-        return {
-            message: null,
-        }
-    }
-}
+  },
+  data() {
+    return {
+      message: null,
+    };
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -78,10 +81,10 @@ export default {
     border-radius: 0px 0px 10px 10px
     .button
         padding: 16px 26px 7px 26px
-    .field 
+    .field
         width: 80%
         margin: 0
-        .control 
+        .control
             ::v-deep
                 .textarea
                     min-height: 50px

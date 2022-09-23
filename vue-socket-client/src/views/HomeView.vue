@@ -23,18 +23,24 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
+import { mapActions } from 'vuex'
 export default {
   name: 'HomeView',
   methods: {
+    ...mapActions('socketio', ["login"]),
     handleNavigate() {
+      if (this.exist || this.userName == "") {
+        console.log("Nombre de usuario ya existe")
+        return
+      }
+      this.login(this.userName)
       this.$router.push('/chats/global-chat')
     },
   },
   data() {
     return {
-      userName: ""
+      userName: "",
+      exist: this.$store.state.socketio.exist
     }
   }
 }
