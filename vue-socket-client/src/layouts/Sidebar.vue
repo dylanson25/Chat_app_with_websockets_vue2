@@ -1,44 +1,52 @@
 <template>
-    <section>
-        <b-sidebar v-model="open" type="is-light" fullheight>
-            <div class="p-1">
-                <b-menu>
-                    <b-menu-list label="Usuarios">
-                        <b-menu-item @click="()=> $router.push(`/chats/global-chat`)" label="Chat Global" />
-                        <b-menu-item v-for="(user, key) in users" :key="key" icon="account" :label="user.name"
-                            @click="() => handleNavigate(user.name)" />
-                    </b-menu-list>
-                </b-menu>
-            </div>
-        </b-sidebar>
-        <div class="show-button">
-            <b-button @click="()=>open = !open">Usuarios</b-button>
-        </div>
-    </section>
+  <section>
+    <b-sidebar v-model="open" type="is-light" fullheight>
+      <div class="p-1">
+        <b-menu>
+          <b-menu-list label="Usuarios">
+            <b-menu-item
+              @click="() => $router.push(`/chats/global-chat`)"
+              label="Chat Global"
+            />
+            <b-menu-item
+              v-for="(user, key) in users"
+              :key="key"
+              icon="account"
+              :label="user"
+              @click="() => handleNavigate(user.name)"
+            />
+          </b-menu-list>
+        </b-menu>
+      </div>
+    </b-sidebar>
+    <div class="show-button">
+      <b-button @click="() => (open = !open)">Usuarios</b-button>
+    </div>
+  </section>
 </template>
-  
+
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
-    methods: {
-        handleNavigate(name) {
-            this.open = !this.open
-            this.$router.push(`/chats/${name}`)
-        }
+  methods: {
+    handleNavigate(name) {
+      this.open = !this.open;
+      this.$router.push(`/chats/${name}`);
     },
-    computed: {
-        ...mapGetters('socketio', ['users', 'name'])
-    },
-    data() {
-        return {
-            open: false,
-        };
-    }
+  },
+  computed: {
+    ...mapGetters("socketio", ["users", "name"]),
+  },
+  data() {
+    return {
+      open: false,
+    };
+  },
 };
 </script>
-  
+
 <style lang="sass" scoped>
-.p-1 
+.p-1
     padding: 1em
 .show-button
     position: absolute

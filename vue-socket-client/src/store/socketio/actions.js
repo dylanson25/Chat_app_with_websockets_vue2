@@ -1,11 +1,10 @@
-import VueSocketIO from "vue-socket.io";
 export const new_message = ({ state }, message) => {
   state.io.emit("newMessage", message);
 };
 
 export const login = ({ state, commit }, name) => {
   state.io.emit("login", name);
-  commit("SET_NAME", name);
+  commit("SOCKET_SET_NAME", name);
 };
 
 //funcionando

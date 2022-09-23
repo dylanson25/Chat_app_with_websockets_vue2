@@ -12,6 +12,7 @@ const { Server } = require("socket.io", {
 const io = new Server(server);
 
 let users = {};
+let listUsers = [];
 
 app.get("/", (req, res) => {
   res.send("Socketio...");
@@ -30,14 +31,15 @@ io.on("connection", (socket) => {
     }
     socket.username = username;
     users[username] = username;
-    // console.log(socket);
+    listUsers.push(username);
+
     socket.emit("LOGIN", {
       username: socket.username,
-      users,
+      listUsers,
     });
     socket.broadcast.emit("JOINED", {
       username: socket.username,
-      users,
+      listUsers,
     });
   });
   //EVENT NEWMESSAGE
