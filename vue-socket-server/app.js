@@ -106,7 +106,7 @@ io.on("connection", (socket) => {
 
     userList.push({ uid, userName });
 
-    socket.broadcast.emit("JOINED", {
+    socket.broadcast.emit("USER_JOINED", {
       userName: userName,
       userList,
       users,
@@ -116,7 +116,7 @@ io.on("connection", (socket) => {
   socket.on("newMessage", ({ id, message, toUserUid }) => {
     console.log("NEW MESSAGE");
 
-    let chatRoom = chatRoomsUIDFilter(id);
+    let chatRoom = chatRoomsUIDFilter(id)[0];
 
     if (!chatRoom) {
       //Si no existe se crea
@@ -130,12 +130,12 @@ io.on("connection", (socket) => {
 
       socket.emit("UPDATE_USERS", users);
     } else {
-      chatRoom.messages.push({ userName: socket.user.name, msg: message });
-
+      chatRoom.messages.push({ userName: socket.user.uid, msg: message });
       const idx = chatRooms.findIndex(({ id }) => chatRoom.id === id);
       chatRooms[idx] = chatRoom;
     }
-    socket.broadcast.emit("NEW_MESSAGE", `${socket.user.name}: ${message}`);
+    socket.broadcast.emit("NEW_MESSAGE", `${socket.user.userName}: ${message}`);
+    socket.broadcast.emit("LOAD_CHAT", chatRooms);
     socket.emit("LOAD_CHAT", chatRooms);
 
     // socket.emit("NEW_MESSAGE", `Yo: ${message}`);

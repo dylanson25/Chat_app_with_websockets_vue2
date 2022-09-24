@@ -7,9 +7,11 @@ export const setSocket = (state, socket) => {
 //   state.name = name;
 // };
 
-// export const SOCKET_NEW_MESSAGE = (state, message) => {
-//   state.chat.push(message[0]);
-// };
+export const SOCKET_LOAD_CHAT = (state, chatRooms) => {
+  console.log("LOAD_CHATROOMS");
+  state.chatRooms = chatRooms;
+  // state.chat.push(message[0]);
+};
 
 export const SOCKET_LOGIN = (state, data) => {
   console.log("SOCKET_LOGIN");
@@ -27,11 +29,13 @@ export const SOCKET_LOGIN = (state, data) => {
 //   state.exist = true;
 // };
 
-// // export const SOCKET_USER_JOINED = (state, data) => {
-// //   console.log(data);
-// //   state.users = data[0].users;
-// //   state.chat.push(`Usuario ${data[0].username} ha entrado en la sala`);
-// // };
+export const SOCKET_USER_JOINED = (state, data) => {
+  console.log(data);
+  const { userName, userList, users } = data;
+  console.log(userName);
+  state.usersList = userList;
+  state.users = users;
+};
 
 // export const SOCKET_USER_LEFT = (state, data) => {
 //   state.users = data[0].users;
