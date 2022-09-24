@@ -5,10 +5,7 @@
         <img src="../assets/logo.png" alt="logo" />
       </b-navbar-item>
       <b-navbar-item class="title-chat">
-        {{ $store.state.socketio.name }}:
-      </b-navbar-item>
-      <b-navbar-item>
-        {{ chatTitle }}
+        {{ $store.state.socketio.userName }} -> {{ chatTitle }}
       </b-navbar-item>
     </section>
 
@@ -23,7 +20,7 @@
         >
         </b-input>
       </b-field>
-      <b-button type="is-success">
+      <b-button type="is-success" @click="new_message(message)">
         <b-icon icon="share" size="is-large" />
       </b-button>
     </section>
@@ -31,7 +28,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
+  methods: {
+    ...mapActions("socketio", ["new_message"]),
+  },
   computed: {
     chatTitle() {
       const nameRoute = this.$route.name;
