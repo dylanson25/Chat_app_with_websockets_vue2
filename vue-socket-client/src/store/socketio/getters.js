@@ -1,10 +1,6 @@
-export const chat = (state) => {
-  return state.chat;
+export const userName = (state) => {
+  return state.userName;
 };
-
-export const name = (state) => {
-  return state.name;
-};
-export const users = (state) => {
-  return state.users;
+export const usersList = (state) => {
+  return state.usersList;
 };
