@@ -9,11 +9,11 @@
               label="Chat Global"
             />
             <b-menu-item
-              v-for="(user, key) in users"
+              v-for="(user, key) in usersList"
               :key="key"
               icon="account"
-              :label="user"
-              @click="() => handleNavigate(user.name)"
+              :label="user.userName"
+              @click="() => handleNavigate(user.userName)"
             />
           </b-menu-list>
         </b-menu>
@@ -35,7 +35,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("socketio", ["users", "name"]),
+    ...mapGetters("socketio", ["usersList"]),
   },
   data() {
     return {
