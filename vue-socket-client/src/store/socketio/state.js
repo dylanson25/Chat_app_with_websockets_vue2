@@ -1,6 +1,9 @@
 export default () => ({
   io: {},
-  name: null,
+  uid: null,
   users: [],
+  userName: null,
+  usersList: [],
+  chatRooms: [],
   exist: false,
 });
