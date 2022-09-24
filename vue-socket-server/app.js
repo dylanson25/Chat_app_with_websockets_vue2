@@ -17,7 +17,17 @@ app.get("/", (req, res) => {
 
 let users = [];
 let userList = [];
-let chatRooms = [];
+let chatRooms = [
+  {
+    id: "wj3UfZTmCO_tHTodAAAF",
+    messages: [
+      {
+        userName: "Chat-App",
+        msg: "Bienvenido al chat global",
+      },
+    ],
+  },
+];
 /**
  * Arrego de objetos con la informacion del usario se crea cuando se hace login
  * users{
@@ -81,14 +91,20 @@ io.on("connection", (socket) => {
     }
 
     socket.user = { uid, userName };
-    users.push({ uid, userName, chats: [] });
-    userList.push({ uid, userName });
+    users.push({
+      uid,
+      userName,
+      chats: [{ id: "wj3UfZTmCO_tHTodAAAF", name: "Chat Globlal" }],
+    });
 
     socket.emit("LOGIN", {
+      users,
       userName: userName,
       userList,
       chatRooms,
     });
+
+    userList.push({ uid, userName });
 
     socket.broadcast.emit("JOINED", {
       userName: userName,
@@ -105,7 +121,7 @@ io.on("connection", (socket) => {
     if (!chatRoom) {
       //Si no existe se crea
       const idx = users.findIndex(({ uid }) => toUserUid === uid);
-      users[idx].chats.push("wj3UfZTmCO_tHTodAAAF");
+      users[idx].chats.push(id);
 
       chatRooms.push({
         id,
