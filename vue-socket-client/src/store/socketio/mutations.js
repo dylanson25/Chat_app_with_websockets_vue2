@@ -7,9 +7,10 @@ export const setSocket = (state, socket) => {
 //   state.name = name;
 // };
 
-export const SOCKET_LOAD_CHAT = (state, chatRooms) => {
+export const SOCKET_LOAD_CHAT = (state, { chatRooms, users }) => {
   console.log("LOAD_CHATROOMS");
   state.chatRooms = chatRooms;
+  state.users = users;
   // state.chat.push(message[0]);
 };
 
@@ -30,7 +31,6 @@ export const SOCKET_LOGIN = (state, data) => {
 // };
 
 export const SOCKET_USER_JOINED = (state, data) => {
-  console.log(data);
   const { userName, userList, users } = data;
   console.log(userName);
   state.usersList = userList;

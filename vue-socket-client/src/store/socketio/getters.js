@@ -4,3 +4,8 @@ export const userName = (state) => {
 export const usersList = (state) => {
   return state.usersList;
 };
+
+export const getToUser = (state) => (uid) => {
+  const user = state.usersList.filter((user) => user.uid.includes(uid));
+  return user[0];
+};

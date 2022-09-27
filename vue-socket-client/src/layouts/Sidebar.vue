@@ -13,7 +13,7 @@
               :key="key"
               icon="account"
               :label="user.userName"
-              @click="() => handleNavigate(user.userName)"
+              @click="() => handleNavigate(user.uid)"
             />
           </b-menu-list>
         </b-menu>
@@ -26,12 +26,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   methods: {
-    handleNavigate(name) {
+    handleNavigate(uid) {
       this.open = !this.open;
-      this.$router.push(`/chats/${name}`);
+      this.$router.push({
+        path: `/chats/${uid}`,
+      });
     },
   },
   computed: {

@@ -20,7 +20,7 @@
         >
         </b-input>
       </b-field>
-      <b-button type="is-success" @click="new_message(message)">
+      <b-button type="is-success" @click="handleSendMessage(message)">
         <b-icon icon="share" size="is-large" />
       </b-button>
     </section>
@@ -28,22 +28,34 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   methods: {
-    ...mapActions("socketio", ["new_message"]),
+    ...mapActions("socketio", ["new_message", "new_global_message"]),
+    handleSendMessage(message) {
+      const nameRoute = this.$route.name;
+      console.log(this.user);
+      nameRoute == "global chat"
+        ? this.new_global_message(message)
+        : this.new_message({ message, toUserUid: this.user.uid });
+    },
   },
   computed: {
+    ...mapGetters("socketio", ["getToUser"]),
     chatTitle() {
       const nameRoute = this.$route.name;
-      return nameRoute == "global chat"
-        ? "Chat Global"
-        : this.$route.params.name;
+      if (nameRoute == "global chat") {
+        this.user = { id: "wj3UfZTmCO_tHTodAAAF" };
+      } else {
+        this.user = this.getToUser(this.$route.params.name);
+      }
+      return nameRoute == "global chat" ? "Chat Global" : this.user.userName;
     },
   },
   data() {
     return {
       message: null,
+      user: null,
     };
   },
 };

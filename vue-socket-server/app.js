@@ -9,6 +9,7 @@ const { Server } = require("socket.io", {
     origin: "http//localhost:8081",
   },
 });
+
 const io = new Server(server);
 
 app.get("/", (req, res) => {
@@ -34,7 +35,7 @@ let chatRooms = [
  *    {
     uid: 1,
     userName: "Dylan",
-    chats: [{ id: "wj3UfZTmCO_tHTodAAAF", name: "Chat Globlal" }],
+    chats: [{ id: "wj3UfZTmCO_tHTodAAAF", toUserId: ""tygrfevd" name: "Chat Globlal" }],
   },
   {
     uid: 2,
@@ -120,23 +121,36 @@ io.on("connection", (socket) => {
 
     if (!chatRoom) {
       //Si no existe se crea
-      const idx = users.findIndex(({ uid }) => toUserUid === uid);
-      users[idx].chats.push(id);
+      const idx = users.findIndex(({ uid }) => socket.user.uid === uid);
+      users[idx].chats.push({ id, toUserUid });
+
+      const toUseridx = users.findIndex(({ uid }) => toUserUid === uid);
+      users[toUseridx].chats.push({ id, toUserUid: socket.user.uid });
 
       chatRooms.push({
         id,
-        messages: [{ userName: socket.user.name, msg: message }],
+        messages: [
+          {
+            userName: socket.user.userName,
+            uid: socket.user.uid,
+            msg: message,
+          },
+        ],
       });
 
       socket.emit("UPDATE_USERS", users);
     } else {
-      chatRoom.messages.push({ userName: socket.user.uid, msg: message });
+      chatRoom.messages.push({
+        userName: socket.user.userName,
+        uid: socket.user.uid,
+        msg: message,
+      });
       const idx = chatRooms.findIndex(({ id }) => chatRoom.id === id);
       chatRooms[idx] = chatRoom;
     }
     socket.broadcast.emit("NEW_MESSAGE", `${socket.user.userName}: ${message}`);
-    socket.broadcast.emit("LOAD_CHAT", chatRooms);
-    socket.emit("LOAD_CHAT", chatRooms);
+    socket.broadcast.emit("LOAD_CHAT", { chatRooms, users });
+    socket.emit("LOAD_CHAT", { chatRooms, users });
 
     // socket.emit("NEW_MESSAGE", `Yo: ${message}`);
   });
