@@ -9,7 +9,9 @@
       </b-navbar-item>
     </section>
 
-    <section class="section section-bg"></section>
+    <section class="section section-bg">
+      <p v-for="(message, key) in messages" :key="key">{{ message.msg }}</p>
+    </section>
 
     <section class="section section__chat">
       <b-field>
@@ -31,17 +33,20 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   methods: {
-    ...mapActions("socketio", ["new_message", "new_global_message"]),
+    ...mapActions("socketio", [
+      "new_message",
+      "new_global_message",
+      "getChatMessages",
+    ]),
     handleSendMessage(message) {
       const nameRoute = this.$route.name;
-      console.log(this.user);
       nameRoute == "global chat"
         ? this.new_global_message(message)
         : this.new_message({ message, toUserUid: this.user.uid });
     },
   },
   computed: {
-    ...mapGetters("socketio", ["getToUser"]),
+    ...mapGetters("socketio", ["getToUser", "getChatGlobal"]),
     chatTitle() {
       const nameRoute = this.$route.name;
       if (nameRoute == "global chat") {
@@ -50,6 +55,18 @@ export default {
         this.user = this.getToUser(this.$route.params.name);
       }
       return nameRoute == "global chat" ? "Chat Global" : this.user.userName;
+    },
+    messages() {
+      let messages;
+      if (this.chatTitle === "Chat Global") {
+        messages = this.getChatGlobal;
+        console.log(messages);
+        return messages;
+      } else {
+        return ["s"];
+      }
+      // console.log(this.user.uid);
+      // console.log(this.user);
     },
   },
   data() {
@@ -83,6 +100,7 @@ export default {
     padding: 0
 .section-bg
     flex-grow: 1
+    color: white
     background-image: url('../assets/chatFondo.jpg')
 .section__chat
     height: 70px
