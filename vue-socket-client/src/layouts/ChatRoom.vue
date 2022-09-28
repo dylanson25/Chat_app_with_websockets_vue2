@@ -10,7 +10,13 @@
     </section>
 
     <section class="section section-bg">
-      <p v-for="(message, key) in messages" :key="key">{{ message.msg }}</p>
+      <b-field
+        :label="getUserName != userName ? userName : 'yo'"
+        v-for="({ msg, userName }, key) in messages"
+        :key="key"
+      >
+        <b-tag type="is-success">{{ msg }}</b-tag>
+      </b-field>
     </section>
 
     <section class="section section__chat">
@@ -33,11 +39,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   methods: {
-    ...mapActions("socketio", [
-      "new_message",
-      "new_global_message",
-      "getChatMessages",
-    ]),
+    ...mapActions("socketio", ["new_message", "new_global_message"]),
     handleSendMessage(message) {
       const nameRoute = this.$route.name;
       nameRoute == "global chat"
@@ -46,7 +48,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("socketio", ["getToUser", "getChatGlobal"]),
+    ...mapGetters("socketio", [
+      "getToUser",
+      "getUserName",
+      "getChatGlobal",
+      "getChatMessages",
+    ]),
     chatTitle() {
       const nameRoute = this.$route.name;
       if (nameRoute == "global chat") {
@@ -60,13 +67,10 @@ export default {
       let messages;
       if (this.chatTitle === "Chat Global") {
         messages = this.getChatGlobal;
-        console.log(messages);
-        return messages;
       } else {
-        return ["s"];
+        messages = this.getChatMessages(this.user.uid);
       }
-      // console.log(this.user.uid);
-      // console.log(this.user);
+      return messages;
     },
   },
   data() {
@@ -98,6 +102,8 @@ export default {
         font-weight: bold
 .section
     padding: 0
+    .field .label
+        color: black
 .section-bg
     flex-grow: 1
     color: white
