@@ -13,6 +13,7 @@
       <b-field
         :label="getUserName != userName ? userName : 'yo'"
         v-for="({ msg, userName }, key) in messages"
+        :class="getUserName == userName && 'fromUser'"
         :key="key"
       >
         <b-tag type="is-success">{{ msg }}</b-tag>
@@ -41,10 +42,12 @@ export default {
   methods: {
     ...mapActions("socketio", ["new_message", "new_global_message"]),
     handleSendMessage(message) {
+      if (this.message == "" || this.message == null) return;
       const nameRoute = this.$route.name;
       nameRoute == "global chat"
         ? this.new_global_message(message)
         : this.new_message({ message, toUserUid: this.user.uid });
+      this.message = "";
     },
   },
   computed: {
@@ -102,12 +105,33 @@ export default {
         font-weight: bold
 .section
     padding: 0
-    .field .label
-        color: black
+
+.field .label
+  color: black
 .section-bg
     flex-grow: 1
     color: white
     background-image: url('../assets/chatFondo.jpg')
+    padding: 16px
+    ::v-deep
+      .field
+        .label
+          color: white
+        .tag
+          background-color: #009852
+          padding: 16px
+          span
+            font-weight: 400
+            font-size: 16px
+      .fromUser
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        .label
+          text-align: left
+        .tag
+            background-color: #002C2E
+            padding: 16px
 .section__chat
     height: 70px
     display: flex
