@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkvue_socket_client_with_vue_config"]=self["webpackChunkvue_socket_client_with_vue_config"]||[]).push([[391],{8271:function(e,t,n){n.r(t),n.d(t,{default:function(){return l}});var u=function(){var e=this,t=e._self._c;return t("div",{staticClass:"cont"},[t("Sidebar"),t("router-view")],1)},c=[],i=n(3021),o={components:{Sidebar:i.Y,ChatRoom:i.W}},s=o,r=n(1001),_=(0,r.Z)(s,u,c,!1,null,"3d3df534",null),l=_.exports}}]);
+//# sourceMappingURL=chatView.e72e1905.js.map

@@ -15,7 +15,7 @@ Vue.use(Buefy);
 
 Vue.use(
   new VueSocketIO({
-    connection: SocketIO("http://localhost:8081", {
+    connection: SocketIO("http://148.213.194.18:8081", {
       transports: ["websocket", "polling", "flashsocket"],
     }),
     vuex: {
